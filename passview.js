@@ -64,21 +64,22 @@ var SA_PassView = {
      sapv.iconTarget.appendChild(lk);
    }
    /* 
-    * For advanced use, pass the following objet to SA_PassView.add function: 
-    * 
-    * For English users:
-    * {   
-    *  lang: 1
-    * }
+    * To start it, add the js src:
+    * <script src="..your server.../passview.js"></script>
+    *
+    * On a following script tag do:
+    * <script> SA_PassView.add({}); </script> for Portuguese
+    * or ...
+    * <script> SA_PassView.add({lang: 1}); </script> for English
+    *
+    * For advanced use, you can also pass lang 0/1, style: "your css" and iconTarget: <dom element>
     *  
     * If you want to place the eye in a specific DOM element, use iconTarget property.
     * 
     *    iconTarget: (dom element to place the icon)
     *  
     * If ommited iconTarget, the domElem.parentNode will be used and margin-left is added automatically.
-    *  
-    * Accepts also a style property, holding the string for initial style for the eye: 
-    *   style: 'margin-left: 10px' 
+    *   
     */
   
 };
