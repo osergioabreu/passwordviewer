@@ -1,41 +1,74 @@
 /* 
  * Password viewer by Sergio Abreu
+ * Version 2.0 - with Tab Stop and Accessibility
  * 06-12-2017
- * Updated: 09-01-2018
+ * Updated: 19-06-2024
  * http://sites.sitesbr.net
- * Requires glyphicons  
+ * Requires glyphicons css fonts  
  */
 
 var SA_PassView = {
-   add: function(obj){           
-     var sp = document.createElement('span'), action='visualizar';
-     if(! obj.iconTarget){
-       obj.iconTarget = obj.domElem.parentNode;
-       obj.style = 'margin-left: 10px';
-     }
-     if( obj.style) sp.setAttribute("style", obj.style);
-     sp.style.fontSize = "1.1em";
-     sp.setAttribute('class', "glyphicon glyphicon-eye-close");
-     sp.setAttribute("title", "Clique para "+action+" a senha");
-     sp.addEventListener('click', function(e){
-       if(!e) e = window.event;
-       var cl = e.target.getAttribute('class');
-       if(cl.match(/close/)) {
-         action = 'esconder';
+   langs: ['pt-br', 'en'],
+   lang: 0,
+   wClick: ['Clique para', 'Click to'],
+   wPass: ['a senha', 'the password'],
+   wShow: ['mostrar', 'show'],
+   wHide: ['esconder', 'hide'],
+   wHint: ['clicar enter aqui mostra sua senha, aperte tab para pular', 'typing enter now will show your password, press tab to skip'],   
+   toggle: function(){
+       var state=0, sapv = SA_PassView, sp = document.getElementById('sapassview_bt'), cl = sp.getAttribute('class');
+       if( cl.match(/close/)) {
+         action = sapv.wHide[ sapv.lang];
+         state = 0;
          sp.setAttribute('class', "glyphicon glyphicon-eye-open");
-         obj.domElem.type = "text";
+         sapv.domElem.type = "text";
        } else {
-         action = 'visualizar';
+         action = sapv.wShow[ sapv.lang];
+         state = 1;
          sp.setAttribute('class', "glyphicon glyphicon-eye-close");
-         obj.domElem.type = "password";
+         sapv.domElem.type = "password";
        }
-       sp.setAttribute("title", "Clique para "+action+" a senha");
-     });
-     obj.iconTarget.appendChild(sp);
-   },
-   /* Basic obj is:
-    * { 
-    *   domElem: (the form field)
+       sp.parentNode.setAttribute("title", sapv.wClick[ sapv.lang] + " "+action+" " + sapv.wPass[ sapv.lang]);
+     },
+   add: function( obj ){      
+     var lk, sapv = SA_PassView, sp = document.createElement('span');     
+     if( obj.domElem ) 
+       sapv.domElem = obj.domElem; 
+     else
+       sapv.domElem = document.querySelector('input[type=password]');
+       
+     if( typeof obj.lang != 'undefined')
+       sapv.lang = parseInt(obj.lang);
+       
+     if(! obj.iconTarget ){
+       sapv.iconTarget = sapv.domElem.parentNode;
+     } else
+       sapv.iconTarget = obj.iconTarget;
+       
+     sp.style.fontSize = "1.1em";
+     
+     if( obj.style) 
+       sp.setAttribute("style", obj.style);
+     else
+       sp.setAttribute("style", 'margin-left: 10px');
+       
+     sp.id = 'sapassview_bt';
+     sp.setAttribute('class', "glyphicon glyphicon-eye-close");     
+     
+     lk = document.createElement('A');
+     lk.href="javascript: SA_PassView.toggle()";
+     lk.setAttribute("title", sapv.wClick[ sapv.lang] + " " + sapv.wShow[sapv.lang] + " " + sapv.wPass[ sapv.lang]);      
+     lk.setAttribute('tabstop', 3); //input input "spav"
+     lk.setAttribute('alt', sapv.wHint[sapv.lang] ); 
+     lk.appendChild(sp); 
+     sapv.iconTarget.appendChild(lk);
+   }
+   /* 
+    * For advanced use, pass the following objet to SA_PassView.add function: 
+    * 
+    * For English users:
+    * {   
+    *  lang: 1
     * }
     *  
     * If you want to place the eye in a specific DOM element, use iconTarget property.
@@ -49,4 +82,3 @@ var SA_PassView = {
     */
   
 };
-
