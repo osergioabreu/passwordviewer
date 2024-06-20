@@ -16,19 +16,17 @@ var SA_PassView = {
    wHide: ['esconder', 'hide'],
    wHint: ['clicar enter aqui mostra sua senha, aperte tab para pular', 'typing enter now will show your password, press tab to skip'],   
    toggle: function(){
-       var state=0, sapv = SA_PassView, sp = document.getElementById('sapassview_bt'), cl = sp.getAttribute('class');
+       var sapv = SA_PassView, sp = document.getElementById('sapassview_bt'), cl = sp.getAttribute('class');
        if( cl.match(/close/)) {
-         action = sapv.wHide[ sapv.lang];
-         state = 0;
+         action = ' ' + sapv.wHide[ sapv.lang] + ' '; 
          sp.setAttribute('class', "glyphicon glyphicon-eye-open");
          sapv.domElem.type = "text";
        } else {
-         action = sapv.wShow[ sapv.lang];
-         state = 1;
+         action = ' ' + sapv.wShow[ sapv.lang] + ' '; 
          sp.setAttribute('class', "glyphicon glyphicon-eye-close");
          sapv.domElem.type = "password";
        }
-       sp.parentNode.setAttribute("title", sapv.wClick[ sapv.lang] + " "+action+" " + sapv.wPass[ sapv.lang]);
+       sp.parentNode.setAttribute("title", sapv.wClick[ sapv.lang] + action + sapv.wPass[ sapv.lang]);
      },
    add: function( obj ){      
      var lk, sapv = SA_PassView, sp = document.createElement('span');     
